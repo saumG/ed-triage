@@ -15,11 +15,9 @@ const HospitalList = () => {
         Emergency Department Wait Times
       </h1>
       {hospitals.map((hospital) => (
-        <div key={hospital.id} className="bg-white p-4 rounded shadow mb-4">
+        <div key={hospital.name} className="bg-white p-4 rounded shadow mb-4">
           <h2 className="text-xl font-semibold">{hospital.name}</h2>
-          <p>Address: {hospital.address}</p>
-          <p>Phone: {hospital.phone}</p>
-          <p>Wait Time: {hospital.waitTime}</p>
+          <p>Wait Time: {hospital.wait_time}</p>
         </div>
       ))}
     </div>
