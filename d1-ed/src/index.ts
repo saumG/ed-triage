@@ -20,6 +20,17 @@ export default {
 		const { pathname } = new URL(request.url);
 		console.log(pathname);
 
+		// Handle preflight OPTIONS request
+		if (request.method === 'OPTIONS') {
+			return new Response(null, {
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+					'Access-Control-Allow-Headers': 'Content-Type',
+				},
+			});
+		}
+
 		if (pathname === '/api/hospitals' && request.method === 'POST') {
 			try {
 				const body = await request.json();
@@ -34,7 +45,14 @@ export default {
 
 				console.log('Query result:', result);
 
-				return new Response('Hospital data inserted successfully', { status: 200 });
+				return new Response('Hospital data inserted successfully', {
+					status: 200,
+					headers: {
+						'Access-Control-Allow-Origin': '*',
+						'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+						'Access-Control-Allow-Headers': 'Content-Type',
+					},
+				});
 			} catch (error) {
 				console.error('Error inserting data:', error);
 				return new Response('Failed to insert hospital data', { status: 500 });
@@ -52,7 +70,12 @@ export default {
 				console.log('Query result:', result);
 
 				return new Response(JSON.stringify(result.results), {
-					headers: { 'Content-Type': 'application/json' },
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*',
+						'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+						'Access-Control-Allow-Headers': 'Content-Type',
+					},
 					status: 200,
 				});
 			} catch (error) {

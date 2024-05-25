@@ -1,54 +1,62 @@
-import React, { useState } from "react";
-import { OpenAIAPIKey } from "../config/config";
+import { useState } from "react";
+import { getAnswer } from "../config/config";
 
-const Chat = () => {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
+export default function TriageChat() {
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
 
-  const sendMessage = async () => {
-    setMessages([...messages, { text: input, user: "user" }]);
-    const response = await fetchMessage(input);
-    setMessages([...messages, { text: response, user: "bot" }]);
-    setInput("");
-  };
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const result = await getAnswer(question);
 
-  const fetchMessage = async (input) => {
-    const response = await fetch(
-      "https://api.openai.com/v1/engines/davinci/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${OpenAIAPIKey}`,
-        },
-        body: JSON.stringify({
-          prompt: `You: ${input}\nAI:`,
-          max_tokens: 150,
-        }),
-      }
-    );
-    const data = await response.json();
-    return data.choices[0].text.trim();
-  };
+    console.log(result);
+
+    setAnswer(result);
+  }
 
   return (
-    <div>
-      <div className="message-container">
-        {messages.map((message, index) => (
-          <div key={index} className={`message ${message.user}`}>
-            {message.text}
+    <main className="overflow-hidden w-full h-screen relative flex">
+      <div className="flex max-w-full flex-1 flex-col">
+        <div className="relative pt-4 transition-width flex flex-col overflow-hidden items-stretch flex-1">
+          <div className="flex-1 overflow-hidden dark:bg-gray-800">
+            <h1 className="text-2xl sm:text-4xl font-semibold text-center text-gray-200 dark:text-gray-600 flex gap-4 p-4 items-center justify-center">
+              ED TRIAGE AI
+            </h1>
+            <div className="h-full ">
+              <div className="h-full flex flex-col items-center text-sm dark:bg-gray-800"></div>
+            </div>
           </div>
-        ))}
-      </div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-        placeholder="Type a message..."
-      />
-    </div>
-  );
-};
 
-export default Chat;
+          <div className="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2">
+            <form
+              onSubmit={handleSubmit}
+              className="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
+            >
+              <div className="relative flex flex-col h-full flex-1 items-stretch md:flex-col">
+                <div className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
+                  <textarea
+                    value=""
+                    tabIndex={0}
+                    data-id="root"
+                    placeholder="Enter your symptoms here.."
+                    className="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0"
+                    onChange={(e) => console.log(e.currentTarget.value)}
+                  ></textarea>
+                  <button className="absolute p-1 rounded-md bottom-1.5 md:bottom-2.5 bg-transparent disabled:bg-gray-500 right-1 md:right-2 disabled:opacity-40">
+                    &#11157;
+                  </button>
+                </div>
+              </div>
+            </form>
+            <div className="px-3 pt-2 pb-3 text-center text-xs text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
+              <span>
+                The responses may include inaccurate information about people,
+                places, or facts.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
