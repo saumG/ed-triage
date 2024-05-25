@@ -44,7 +44,7 @@ export default function TriageChat() {
   }
 
   return (
-    <main className="w-full h-screen flex flex-col border border-red-500">
+    <main className="w-full h-screen flex flex-col ">
       <div className="flex-1 flex flex-col items-center overflow-auto p-4 scrollbar">
         <div className="w-full max-w-lg">
           <h1 className="text-2xl sm:text-4xl font-semibold text-center text-gray-200 dark:text-gray-600">

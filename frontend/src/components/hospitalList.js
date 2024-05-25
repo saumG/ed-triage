@@ -24,7 +24,7 @@ const HospitalList = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 h-screen overflow-auto border border-red-500">
+    <div className="container mx-auto p-4 h-screen overflow-auto">
       <h1 className="text-2xl font-bold py-4 text-center text-white">
         Emergency Department Wait Times
       </h1>
