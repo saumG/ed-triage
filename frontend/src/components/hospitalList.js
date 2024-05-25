@@ -24,8 +24,8 @@ const HospitalList = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 mt-4 h-screen overflow-auto">
-      <h1 className="text-2xl font-bold mb-4 text-center text-white">
+    <div className="container mx-auto p-4 h-screen overflow-auto border border-red-500">
+      <h1 className="text-2xl font-bold py-4 text-center text-white">
         Emergency Department Wait Times
       </h1>
       <div className="overflow-y-scroll max-h-[80vh] scrollbar">
@@ -34,13 +34,16 @@ const HospitalList = () => {
             key={hospital.id}
             className="text-sm p-4 rounded shadow mb-4 bg-slate-800 text-white flex flex-col gap-2 justify-center"
           >
-            <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-center items-center">
               <h2 className="text-lg font-semibold">
                 {hospital.hospital_name}
               </h2>
+            </div>
+            <div className="flex justify-center gap-2">
+              <strong className="text-bold text-white"></strong>
               <p className="text-md">{hospital.wait_time}</p>
             </div>
-            <div className="flex flex-col md:flex-row justify-between">
+            <div className="flex flex-col md:flex-row justify-around">
               <a
                 href={hospital.directions}
                 className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl transition"
