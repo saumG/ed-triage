@@ -23,17 +23,16 @@ code {
   }
 
   .scrollbar::-webkit-scrollbar-track {
-    border-radius: 100vh;
-    background: transparent;
+    background: #2d3748; /* Dark background to match theme */
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #4a5568;
+    background: #4a5568; /* Match darker gray */
     border-radius: 100vh;
-    border: 3px solid #2d3748;
+    border: 3px solid #2d3748; /* Dark border for padding effect */
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #718096;
+    background: #718096; /* Lighter gray on hover */
   }
 }

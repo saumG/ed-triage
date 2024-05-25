@@ -3,59 +3,63 @@ import { getAnswer } from "../config/config";
 
 export default function TriageChat() {
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [conversation, setConversation] = useState([]);
 
   async function handleSubmit(e) {
     e.preventDefault();
     const result = await getAnswer(question);
 
-    console.log(result);
-
-    setAnswer(result);
+    setConversation((prevConversation) => [
+      ...prevConversation,
+      { question, answer: result },
+    ]);
+    setQuestion(""); // Clear the input after submission
   }
 
   return (
-    <main className="overflow-hidden w-full h-screen relative flex">
-      <div className="flex max-w-full flex-1 flex-col">
-        <div className="relative pt-4 transition-width flex flex-col overflow-hidden items-stretch flex-1">
-          <div className="flex-1 overflow-hidden dark:bg-gray-800">
-            <h1 className="text-2xl sm:text-4xl font-semibold text-center text-gray-200 dark:text-gray-600 flex gap-4 p-4 items-center justify-center">
-              ED TRIAGE AI
-            </h1>
-            <div className="h-full ">
-              <div className="h-full flex flex-col items-center text-sm dark:bg-gray-800"></div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2">
-            <form
-              onSubmit={handleSubmit}
-              className="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
-            >
-              <div className="relative flex flex-col h-full flex-1 items-stretch md:flex-col">
-                <div className="flex flex-col w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
-                  <textarea
-                    value=""
-                    tabIndex={0}
-                    data-id="root"
-                    placeholder="Enter your symptoms here.."
-                    className="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0"
-                    onChange={(e) => console.log(e.currentTarget.value)}
-                  ></textarea>
-                  <button className="absolute p-1 rounded-md bottom-1.5 md:bottom-2.5 bg-transparent disabled:bg-gray-500 right-1 md:right-2 disabled:opacity-40">
-                    &#11157;
-                  </button>
+    <main className="overflow-hidden w-full h-screen relative flex flex-col">
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="flex-1 w-full max-w-lg px-4 py-6">
+          <h1 className="text-2xl sm:text-4xl font-semibold text-center text-gray-200 dark:text-gray-600">
+            ED TRIAGE AI
+          </h1>
+          <div className="mt-4 flex flex-col space-y-4">
+            {conversation.map((entry, index) => (
+              <div key={index} className="space-y-2">
+                <div className="bg-blue-100 dark:bg-blue-800 p-4 rounded-md">
+                  <p className="text-base text-gray-900 dark:text-gray-100">
+                    <strong>You:</strong> {entry.question}
+                  </p>
+                </div>
+                <div className="text-base bg-gray-100 dark:bg-gray-800 p-4 rounded-md">
+                  <p className="text-gray-900 dark:text-gray-100">
+                    <strong>AI:</strong> {entry.answer}
+                  </p>
                 </div>
               </div>
-            </form>
-            <div className="px-3 pt-2 pb-3 text-center text-xs text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
-              <span>
-                The responses may include inaccurate information about people,
-                places, or facts.
-              </span>
-            </div>
+            ))}
           </div>
+          <form onSubmit={handleSubmit} className="mt-4 flex flex-col">
+            <textarea
+              value={question}
+              onChange={(e) => setQuestion(e.currentTarget.value)}
+              placeholder="Enter your symptoms here.."
+              className="w-full resize-none border border-gray-300 p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 dark:border-gray-700 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500"
+            ></textarea>
+            <button
+              type="submit"
+              className="mt-4 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
+            >
+              Submit
+            </button>
+          </form>
         </div>
+      </div>
+      <div className="px-3 pt-2 pb-3 text-center text-xs text-black/50 dark:text-white/50">
+        <span>
+          The responses may include inaccurate information about people, places,
+          or facts.
+        </span>
       </div>
     </main>
   );

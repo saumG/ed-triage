@@ -7,11 +7,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div className="flex">
-          <div className="max-w-200">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-1/2 p-4">
             <HospitalList />
           </div>
-          <TriageChat />
+          <div className="w-full md:w-1/2 p-4">
+            <TriageChat />
+          </div>
         </div>
       </header>
     </div>
