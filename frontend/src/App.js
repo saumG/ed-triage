@@ -1,7 +1,6 @@
 import "./App.css";
 import HospitalList from "./components/hospitalList";
 import TriageChat from "./components/traigeChat";
-import logo from "./logo.svg";
 
 function App() {
   return (
